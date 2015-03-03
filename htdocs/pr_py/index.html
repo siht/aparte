@@ -1,0 +1,103 @@
+<html>
+    <head>
+        <title>Página de ejemplo</title>
+        <script type="text/javascript" src="lib/ConstructorXMLHttpRequest.js"></script>
+        <script type="text/javascript">
+            var peticion01 = null; //Creamos la variable para el objeto
+            
+            //Se llama cuando cambia peticion01.readyState.
+            function estadoPeticion(peticion, status, result) {
+                switch(peticion01.readyState) { //Según el estado de la petición devolvemos un Texto.
+                    case 0: document.getElementById(status).innerHTML = "Sin iniciar";
+                        break;
+                    case 1: document.getElementById(status).innerHTML = "Cargando";
+                        break;
+                    case 2: document.getElementById(status).innerHTML = "Cargado";
+                        break;
+                    case 3: document.getElementById(status).innerHTML = "Interactivo";
+                        break;
+                    case 4: document.getElementById(status).innerHTML = "Completado";
+                        //Si ya hemos completado la petición, devolvemos además la información.
+                        document.getElementById(result).innerHTML = peticion.responseText;
+                        break;
+                }
+            }
+            
+            function cargar(url, status, result) { //Función cargar, en esta caso le entra una dirección relativa al documento actual.
+				peticion01 = new ConstructorXMLHttpRequest();
+                if(peticion01){ //Si tenemos el objeto peticion01
+                    peticion01.open('GET', url, true); //Abrimos la url, false=forma síncrona
+                    /*Asignamos la función que se llama cada vez que cambia el estado de peticion01.readyState Y LO HACEMOS ANTES DE HACER EL SEND porque inicia la transmisión.*/
+					// el método a llamar se encierra en otro método sin parámetros
+					// por lo que suponemos onreadystatechange recibe una función sin parámetros
+                    peticion01.onreadystatechange = function(){estadoPeticion(peticion01, status, result)};
+                    peticion01.send(null); //No le enviamos datos al servidor
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <!--Cuando ocurra el evento oneclick se llamara la función cargar-->
+		<p>scripts python</p>
+        <button onclick='cargar("../cgi-bin/espera.py", "estado0", "resultado0")'>Coge un documento</button>
+        <table border="4">
+            <tr>
+                <td><span id="estado0">Estado petición</span></td> <!--Campo para indicar el estado de la petición-->
+                <!--El campo con id=resultado se sustituirá por causa de que ese id está en la función cargar-->
+                <td><span id="resultado0">Sin resultado</span></td>
+            </tr>
+        </table>
+		<button onclick='cargar("../cgi-bin/pagina.py", "estado0p", "resultado0p")'>Coge un documento</button>
+        <table border="4">
+            <tr>
+                <td><span id="estado0p">Estado petición</span></td> <!--Campo para indicar el estado de la petición-->
+                <!--El campo con id=resultado se sustituirá por causa de que ese id está en la función cargar-->
+                <td><span id="resultado0p">Sin resultado</span></td>
+            </tr>
+        </table>
+		<p>script bash windows</p>
+        <button onclick='cargar("../cgi-bin/ghb.bat", "estado1", "resultado1")'>Coge un documento</button>
+        <table border="4">
+            <tr>
+                <td><span id="estado1">Estado petición</span></td> <!--Campo para indicar el estado de la petición-->
+                <!--El campo con id=resultado se sustituirá por causa de que ese id está en la función cargar-->
+                <td><span id="resultado1">Sin resultado</span></td>
+            </tr>
+        </table>
+		<p>script perl</p>
+        <button onclick='cargar("../cgi-bin/printenv.pl", "estado2", "resultado2")'>Coge un documento</button>
+        <table border="4">
+            <tr>
+                <td><span id="estado2">Estado petición</span></td> <!--Campo para indicar el estado de la petición-->
+                <!--El campo con id=resultado se sustituirá por causa de que ese id está en la función cargar-->
+                <td><span id="resultado2">Sin resultado</span></td>
+            </tr>
+        </table>
+		<button onclick='cargar("./m.pl", "estado2pl", "resultado2pl")'>Coge un documento</button>
+        <table border="4">
+            <tr>
+                <td><span id="estado2pl">Estado petición</span></td> <!--Campo para indicar el estado de la petición-->
+                <!--El campo con id=resultado se sustituirá por causa de que ese id está en la función cargar-->
+                <td><span id="resultado2pl">Sin resultado</span></td>
+            </tr>
+        </table>
+		<p>script lua</p>
+        <button onclick='cargar("./tablas3.lua", "estado3", "resultado3")'>Coge un documento</button>
+        <table border="4">
+            <tr>
+                <td><span id="estado3">Estado petición</span></td> <!--Campo para indicar el estado de la petición-->
+                <!--El campo con id=resultado se sustituirá por causa de que ese id está en la función cargar-->
+                <td><span id="resultado3">Sin resultado</span></td>
+            </tr>
+        </table>
+		<p>prolog compile</p>
+        <button onclick='cargar("./shen.cgi", "estado4", "resultado4")'>Coge un documento</button>
+        <table border="4">
+            <tr>
+                <td><span id="estado4">Estado petición</span></td> <!--Campo para indicar el estado de la petición-->
+                <!--El campo con id=resultado se sustituirá por causa de que ese id está en la función cargar-->
+                <td><span id="resultado4">Sin resultado</span></td>
+            </tr>
+        </table>
+    </body>
+</html>
